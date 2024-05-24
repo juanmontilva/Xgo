@@ -6,6 +6,7 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	lambda "github.com/aws/aws-lambda-go/lambda"
+	"github.com/juanmontilva/xgo/aws"
 )
 
 func main() {
@@ -15,6 +16,8 @@ func main() {
 func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	var res *events.APIGatewayProxyResponse
 
+	aws.InicializoAWS()
+
 	if !ValidoParametro() {
 		res = &events.APIGatewayProxyResponse{
 			StatusCode: 400,
@@ -23,9 +26,8 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 				"Content-Type": "aplication/json",
 			},
 		}
+		return res, nil
 	}
-
-	return res, nil
 
 }
 
