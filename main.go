@@ -28,7 +28,7 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 			StatusCode: 400,
 			Body:       "Error en las variables de entorno. debe incluir 'SecretName', 'BucketName', 'UrlPrefix'",
 			Headers: map[string]string{
-				"Content-Type": "aplication/json",
+				"Content-Type": "application/json",
 			},
 		}
 		return res, nil
@@ -40,13 +40,13 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 			StatusCode: 400,
 			Body:       "Error en la lectura de Secret" + err.Error(),
 			Headers: map[string]string{
-				"Content-Type": "aplication/json",
+				"Content-Type": "application/json",
 			},
 		}
 		return res, nil
 	}
 
-	path := strings.Replace(request.PathParameters["xclone-go"], os.Getenv("UrlPrefix"), "", -1)
+	path := strings.Replace(request.PathParameters["xclone"], os.Getenv("UrlPrefix"), "", -1)
 
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("path"), path)
 
@@ -60,7 +60,7 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("database"), SecretModel.Database)
 
-	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("jwtSign"), SecretModel.JWTSign)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("jwtsign"), SecretModel.JWTSign)
 
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("body"), request.Body)
 
@@ -74,7 +74,7 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 			StatusCode: 500,
 			Body:       "Error al conectar en la base de datos" + err.Error(),
 			Headers: map[string]string{
-				"Content-Type": "aplication/json",
+				"Content-Type": "application/json",
 			},
 		}
 		return res, nil
