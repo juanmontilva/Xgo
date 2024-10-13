@@ -18,3 +18,6 @@ func InicializoAWS() {
 		panic("ERROR AL CARGAR LA CONFIGURACION .aws/config" + err.Error())
 	}
 }
+
+
+// esto es una prueba
